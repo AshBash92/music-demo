@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import Context from '../context';
+import Context from '../Context';
 
 
 const HelloWorldTwo: React.FC = () => {
     const { context, setContext } = useContext(Context)
 
     return (
-        <div>{context?.client_id} Two!</div>
+        <div>{context.client_id} Two!</div>
     );
 }
 
