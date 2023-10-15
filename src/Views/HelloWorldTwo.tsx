@@ -6,7 +6,7 @@ const HelloWorldTwo: React.FC = () => {
     const { context, setContext } = useContext(Context)
 
     return (
-        <div>{context?.apiKey} Two!</div>
+        <div>{context?.client_id} Two!</div>
     );
 }
 

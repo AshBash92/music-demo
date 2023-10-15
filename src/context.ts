@@ -1,6 +1,15 @@
-import React from 'react';
-import { ContextDataType } from './types';
+import { useState, createContext } from 'react';
+import { ContextType, ContextDataType } from './types';
 
-const Context = React.createContext<ContextDataType>({});
+const [context, setContext] = useState<ContextDataType>({
+    client_id: "",
+    client_secret: "",
+    access_token: null
+});
+
+const Context = createContext<ContextType>({
+    context: context,
+    setContext: setContext
+});
 
 export default Context;

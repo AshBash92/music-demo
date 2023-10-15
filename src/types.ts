@@ -1,8 +1,12 @@
-export interface ContextDataInterface {
-    apiKey: string;
+import { Dispatch, SetStateAction } from 'react';
+
+export interface ContextDataType {
+    client_id: string;
+    client_secret: string;
+    access_token: null | string;
 }
 
-export type ContextDataType = {
-    context?: ContextDataInterface;
-    setContext?: (context: ContextDataInterface) => void;
+export type ContextType = {
+    context: ContextDataType;
+    setContext: Dispatch<SetStateAction<ContextDataType>>;
 }
