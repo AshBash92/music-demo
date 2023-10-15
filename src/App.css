@@ -1,0 +1,12 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #FFFFFF;
+    margin: 15px;
+    background: linear-gradient(25deg, #402565 5%, #30BE96);
+    margin: 15px;
+    height: 100vh;
+  }
+.title-text {
+    text-align: center;
+    padding-top: 25px;
+  }

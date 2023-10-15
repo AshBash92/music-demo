@@ -7,6 +7,7 @@ import {
   RouterProvider
 } from "react-router-dom"
 import Link from '@mui/material/Link'
+import './App.css';
 
 const router = createBrowserRouter([
   {
@@ -25,10 +26,13 @@ const App: React.FC = () => {
   });
 
   return (
-    <Context.Provider value={{ context, setContext }}>
-      <RouterProvider router={router} />
-      <Link href="/two">Link</Link>
+    <div>
+      <h1 className="title-text">Music to my Ears</h1>
+      <Context.Provider value={{ context, setContext }}>
+        <RouterProvider router={router} />
+        <Link href="/two">Link</Link>
     </Context.Provider>
+    </div>
   );
 }
 
