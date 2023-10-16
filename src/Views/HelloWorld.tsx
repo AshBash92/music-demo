@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Context from '../Context';
 import '../App.css';
+import Tiles from '../Components/Tiles';
 
 const getToken = async (clientId: string, clientSecret: string) => {
     const url = 'https://accounts.spotify.com/api/token';
@@ -34,7 +35,7 @@ const getToken = async (clientId: string, clientSecret: string) => {
     }
   };
 
-const getAlbum = async (accessToken: string) => {
+const getAlbum = async (accessToken: string, setSpotifyData: (data: any) => void, setShowTiles: (value: boolean) => void) => {
     const apiUrl = 'https://api.spotify.com/v1/search?q=fire&type=album%2Ctrack%2Cartist&market=US&limit=12&offset=4';
 
     const headers = {
@@ -52,11 +53,10 @@ const getAlbum = async (accessToken: string) => {
         return response.json();
     })
     .then(data => {
-        // call a component that creates tiles for the albums
-        console.log(data);
+        setSpotifyData(data);
+        setShowTiles(true);
     })
     .catch(error => {
-        // Handle errors here
         console.error('Error:', error);
     });
 
@@ -64,7 +64,9 @@ const getAlbum = async (accessToken: string) => {
 
 const HelloWorld: React.FC = () => {
 
-    const { context, setContext } = useContext(Context)
+    const { context, setContext } = useContext(Context);
+    const [showTiles, setShowTiles] = useState(false);
+    const [spotifyData, setSpotifyData] = useState<any | null>(null);
 
     useEffect( () => {
 
@@ -88,25 +90,26 @@ const HelloWorld: React.FC = () => {
 
     const handleSearchClick = () => {
         if (context.access_token !== null) {
-            getAlbum(context.access_token);
+            getAlbum(context.access_token, setSpotifyData, setShowTiles);
         } else {
             console.error('Access token is null. Unable to call getAlbum.');
         }
     };
 
+    console.log(spotifyData);
+
     return (
         <>
-            <div>
-                {context.client_id}!
-                <br />
+            <div className="center">
                 <input
                     type="text"
                     placeholder="Search for an album"
                 />
                 <button onClick={handleSearchClick}>Search Button</button>
             </div>
-            <div>
-                
+            <div className="tile-grid">
+                {/* pass the fucking data please */}
+                {showTiles && <Tiles />}
             </div>
         </>
     );

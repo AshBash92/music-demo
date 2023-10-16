@@ -6,7 +6,30 @@ body {
     margin: 15px;
     height: 100vh;
   }
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .title-text {
-    text-align: center;
-    padding-top: 25px;
+  text-align: center;
+  padding-top: 25px;
   }
+.tile {
+  background: #fff;
+  border: 1px solid #999;
+  border-radius: 15px;
+  line-height: 34px;
+  height: 300px;
+  text-align: center;
+  width: 300px;
+  margin: 15px;
+}
+.tile-grid {
+  display: flex;
+  justify-content: space-between;
+}

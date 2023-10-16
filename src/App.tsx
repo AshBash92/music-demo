@@ -31,7 +31,7 @@ const App: FC = () => {
 
   return (
     <div>
-      <h1 className="title-text">Music to my Ears</h1>
+      <h1 className="title-text">Music App Title</h1>
       <Context.Provider value={{context, setContext}}>
         <RouterProvider router={router} />
         <Link href="/two">Link</Link>

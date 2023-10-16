@@ -1,18 +1,57 @@
 import React from 'react';
 
-// interface TileDetialProps {
-//   name: string;
-//   url: string;
-//   height: number;
+// The data will look something like this
+// {
+// albums: {
+//         items:{
+//             0: [
+//                 artists:[
+//                     0:
+//                     name: "string",
+//                     ...
+//                 ]
+//                 id: "string",
+//                 name: "string",
+//                 ...
+//              ],
+//              [1],
+//              [2],
+//         ... ,
+//         [12]
+//          }
+//     },
+//     artists: {...}
+//     tracks: {...}
 // }
 
-// const Tiles: React.FC<TileDetialProps> = ({ name, url, height }) => {
-//   return (
-//     <div>
-//       <Image source={url} />
-//       <Text>{name}</Text>
-//     </div>
-//   );
-// };
+function Tile({  }) {
+    return (
+        <button className="tile">
+            album cover
+        </button>
+    );
+}
 
-// export default Tiles;
+function Tiles() {
+    return (
+        <>
+            <div className="board-row">
+                <Tile />
+                <Tile />
+                <Tile />
+            </div>
+            <div className="board-row">
+                <Tile />
+                <Tile />
+                <Tile />
+            </div>
+            <div className="board-row">
+                <Tile />
+                <Tile />
+                <Tile />
+            </div>
+        </>
+    );
+}
+
+export default Tiles;
