@@ -34,7 +34,7 @@ const getToken = async (clientId: string, clientSecret: string) => {
     }
   };
 
-const getAlbulm = async (accessToken: string) => {
+const getAlbum = async (accessToken: string) => {
     const apiUrl = 'https://api.spotify.com/v1/search?q=fire&type=album%2Ctrack%2Cartist&market=US&limit=12&offset=4';
 
     const headers = {
@@ -52,8 +52,7 @@ const getAlbulm = async (accessToken: string) => {
         return response.json();
     })
     .then(data => {
-        // Handle the response data here
-        console.log('yippy!')
+        // call a component that creates tiles for the albums
         console.log(data);
     })
     .catch(error => {
@@ -62,7 +61,6 @@ const getAlbulm = async (accessToken: string) => {
     });
 
 }
-
 
 const HelloWorld: React.FC = () => {
 
@@ -88,15 +86,29 @@ const HelloWorld: React.FC = () => {
         fetchData();
     },[])
 
+    const handleSearchClick = () => {
+        if (context.access_token !== null) {
+            getAlbum(context.access_token);
+        } else {
+            console.error('Access token is null. Unable to call getAlbum.');
+        }
+    };
+
     return (
-        <div>
-            {context.client_id}!
-            <br />
-            <input
-                type="text"
-                placeholder="Search for an album"
-            />
-        </div>
+        <>
+            <div>
+                {context.client_id}!
+                <br />
+                <input
+                    type="text"
+                    placeholder="Search for an album"
+                />
+                <button onClick={handleSearchClick}>Search Button</button>
+            </div>
+            <div>
+                
+            </div>
+        </>
     );
 }
 
