@@ -1,44 +1,48 @@
-import { FC, useState, useEffect } from 'react';
-import Context from './Context';
-import HelloWorld from './Views/HelloWorld';
-import HelloWorldTwo from './Views/HelloWorldTwo';
-import {
-  createBrowserRouter,
-  RouterProvider
-} from "react-router-dom"
-import Link from '@mui/material/Link'
+import React, { useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
+import TokenComponent from './Components/TokenComponent';
+import Search from './Views/Search';
+import Play from './Views/Play';
+import Context from './Context';
 import { ContextDataType } from './types';
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <HelloWorld/>
-  },
-  {
-    path: "/two",
-    element: <HelloWorldTwo/>
-  }
-])
-
-const App: FC = () => {
-
+const App: React.FC = () => {
   const [context, setContext] = useState<ContextDataType>({
-    client_id: "abab7da00b4e4f12853c6732d72612c1",
-    client_secret: "1a3b63e4dd5749dd89f1afab33fcc342",
-    access_token: null
+    // You need to have a Spotify account and create an app on their dashboard
+    client_id: "CLIENT_ID",           // Put Spotify client_id here
+    client_secret: "CLIENT_SECRET",   // Put Spotify client_sercret here
+    access_token: null,               // Initializes access_token to be fetched later
+    route: 'Search',                  // Home page set to 'Search'
   });
 
-  return (
-    <div>
-      <h1 className="title-text">Music App Title</h1>
-      <Context.Provider value={{context, setContext}}>
-        <RouterProvider router={router} />
-        <Link href="/two">Link</Link>
-      </Context.Provider>
-    </div>
-  );
+  const handleTokenReceived = (token: string) => {
+    setContext((prevContext) => ({
+      ...prevContext,
+      access_token: token,
+    }));
+  };
 
-}
+  return (
+    <Context.Provider value={{ context, setContext }}>
+
+      {/* Token Component - fetches and passes the Access Token */}
+      <TokenComponent
+        client_id={context.client_id}
+        client_secret={context.client_secret}
+        onTokenReceived={handleTokenReceived}
+      />
+
+      {/* Router Setup - use this to navigate to other views */}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/search" element={<Search />} />                       {/* Route for the 'Search' view */}
+          <Route path="/play/:title/:artist/:id/:img" element={<Play />} />   {/* Route for the 'Play' view */}
+          <Route path="/*" element={<Search />} />                            {/* Default route is 'Search' */}
+        </Routes>
+      </BrowserRouter>
+    </Context.Provider>
+  );
+};
 
 export default App;
