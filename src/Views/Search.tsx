@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import '../App.css';
-import Tiles from '../Components/TileComponent';
+import Tiles from '../components/TileComponent';
 import Context from '../Context';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -8,36 +8,38 @@ import SearchIcon from '@mui/icons-material/Search';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 
 const Search: React.FC = () => {
-  const { context, setContext } = useContext(Context);
-  const [searchInput, setSearchInput] = useState('');     // handleInputChange
-  const [spotifyData, setSpotifyData] = useState<any | null>(null);   // getData
+  // Access the application state and state updater function from the context
+  const { state, setState } = useContext(Context);
 
-  // Search Input Field
+  // State for the search input and Spotify data
+  const [searchInput, setSearchInput] = useState<string>('');
+  const [spotifyData, setSpotifyData] = useState<any | null>(null);
+
+  // Event handler for input change
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(event.target.value);
   };
 
-  // Search fires when 'Enter' is pressed
+  // Event handler for search when the 'Enter' key is pressed
   const handleSearch = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      getData(context.access_token, searchInput);
+      fetchData(state.accessToken, searchInput);
     }
   };
 
-  // Fetches Spotify Data - Albums, Artists, Tracks
-  const getData = async (accessToken: string | null, searchInput: string) => {
-    const sanitizedSearchInput = searchInput.replace(/ /g, "+");    // Replace the spaces with '+' for URL use
-    const apiUrl = 'https://api.spotify.com/v1/search?q=' + sanitizedSearchInput + '&type=album%2Ctrack%2Cartist&market=US&limit=12&offset=4&sort=popularity';
-    // Can edit the URL to fetch less data
+  // Function to fetch data from the Spotify API
+  const fetchData = async (accessToken: string | null, searchInput: string) => {
+    const sanitizedSearchInput = searchInput.replace(/ /g, '+');
+    const apiUrl = `https://api.spotify.com/v1/search?q=${sanitizedSearchInput}&type=album%2Ctrack%2Cartist&market=US&limit=12&offset=4&sort=popularity`;
 
     const headers = {
-      Authorization: `Bearer ${accessToken}` // Access token
+      Authorization: `Bearer ${accessToken}`,
     };
 
     try {
       const response = await fetch(apiUrl, {
         method: 'GET',
-        headers: headers
+        headers: headers,
       });
 
       if (!response.ok) {
@@ -64,10 +66,10 @@ const Search: React.FC = () => {
             <SearchIcon sx={{ color: 'white', mr: 1, my: 0.5 }} />
             <TextField
               id="searchBar"
-              label="Search for Album"
+              label="Search for Song"
               variant="standard"
               value={searchInput}
-              onKeyPress={handleSearch}
+              onKeyUp={handleSearch}
               onChange={handleInputChange}
               InputProps={{ style: { color: 'white' } }}
               InputLabelProps={{ style: { color: 'white' } }}

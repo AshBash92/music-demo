@@ -6,24 +6,35 @@ import Box from '@mui/material/Box';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import { Link } from 'react-router-dom';
 
+// Define the Play component
 const Play: React.FC = () => {
-  const { title, artist, id, img } = useParams<any>(); // Use this to grab more Spotify data
-  const theme = useTheme();
+  // Retrieve route parameters (title, artist, id, img) using useParams
+  const { title, artist, id, img } = useParams<any>();
+  const theme = useTheme(); // Access the theme from Material-UI
 
   return (
     <>
       <div className="Play">
         <header className="Play-header">
+          {/* Create a link back to the search page */}
           <Link to="/search" style={{ textDecoration: 'none', color: 'white' }}>
+            {/* Create a header with the Ongaku title and a MusicNote icon */}
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <p style={{ fontWeight: 'bold' }}>Ongaku</p>
-              <MusicNoteIcon sx={{ color: 'white', mr: 1, my: 0.5 }} />
+              <MusicNoteIcon sx={{ color: 'white', marginRight: 1, margin: '0.5rem' }} />
             </Box>
           </Link>
         </header>
 
-        {/* Embedded Player */}
-        <iframe src={`https://open.spotify.com/embed/track/${id}`} width="300" height="380" frameBorder="0" allowTransparency={true} allow="encrypted-media"></iframe>
+        {/* Embedded Player for the Spotify track */}
+        <iframe
+          src={`https://open.spotify.com/embed/track/${id}`}
+          width="300"
+          height="380"
+          style={{ border: 0 }} // Remove the iframe border
+          allowTransparency={true}
+          allow="encrypted-media"
+        ></iframe>
       </div>
     </>
   );

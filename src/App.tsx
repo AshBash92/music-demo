@@ -1,44 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import TokenComponent from './Components/TokenComponent';
-import Search from './Views/Search';
-import Play from './Views/Play';
-import Context from './Context';
-import { ContextDataType } from './types';
+import getToken from './requests/tokenRquest'; // Import the function to retrieve a Spotify API token
+import Search from './views/Search'; // Import the Search view component
+import Play from './views/Play'; // Import the Play view component
+import Context from './Context'; // Import the application context provider
+import { StateType } from './types';
 
 const App: React.FC = () => {
-  const [context, setContext] = useState<ContextDataType>({
-    // You need to have a Spotify account and create an app on their dashboard
-    client_id: "CLIENT_ID",           // Put Spotify client_id here
-    client_secret: "CLIENT_SECRET",   // Put Spotify client_sercret here
-    access_token: null,               // Initializes access_token to be fetched later
-    route: 'Search',                  // Home page set to 'Search'
+  // Initialize the application state, including Spotify credentials and access token
+  const [state, setState] = useState<StateType>({
+    clientId: process.env.REACT_APP_CLIENT_ID!, // Spotify client ID
+    clientSecret: process.env.REACT_APP_CLIENT_SECRET!, // Spotify client secret
+    accessToken: null, // Initially set to null and will be fetched later
+    route: 'Search', // Home page route set to 'Search'
   });
 
-  const handleTokenReceived = (token: string) => {
-    setContext((prevContext) => ({
-      ...prevContext,
-      access_token: token,
-    }));
-  };
+  useEffect(() => {
+    // Use the 'getToken' function to retrieve and update the access token in the application state
+    getToken({ state, setState });
+  }, []);
 
   return (
-    <Context.Provider value={{ context, setContext }}>
-
-      {/* Token Component - fetches and passes the Access Token */}
-      <TokenComponent
-        client_id={context.client_id}
-        client_secret={context.client_secret}
-        onTokenReceived={handleTokenReceived}
-      />
-
-      {/* Router Setup - use this to navigate to other views */}
+    <Context.Provider value={{ state, setState }}>
+      {/* Set up application routing using React Router */}
       <BrowserRouter>
         <Routes>
-          <Route path="/search" element={<Search />} />                       {/* Route for the 'Search' view */}
-          <Route path="/play/:title/:artist/:id/:img" element={<Play />} />   {/* Route for the 'Play' view */}
-          <Route path="/*" element={<Search />} />                            {/* Default route is 'Search' */}
+          <Route path="/search" element={<Search />} /> {/* Route for the 'Search' view */}
+          <Route
+            path="/play/:title/:artist/:id/:img"
+            element={<Play />}
+          /> {/* Route for the 'Play' view with dynamic parameters */}
+          <Route path="/*" element={<Search />} /> {/* Default route, which redirects to 'Search' */}
         </Routes>
       </BrowserRouter>
     </Context.Provider>

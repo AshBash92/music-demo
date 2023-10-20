@@ -1,14 +1,15 @@
 import { Dispatch, SetStateAction } from 'react';
 
-export interface ContextDataType {
-    client_id: string;
-    client_secret: string;
-    access_token: null | string;
-    route: string;
-  }
-  
+// Define the structure of the state object, representing application data.
+export interface StateType {
+  clientId: string; // Spotify client ID
+  clientSecret: string; // Spotify client secret
+  accessToken: null | string; // Access token (null if not fetched, string if available)
+  route: string; // Current route or page
+}
 
+// Define the structure of the context object, which holds the state and a function to set the state.
 export type ContextType = {
-    context: ContextDataType;
-    setContext: Dispatch<SetStateAction<ContextDataType>>;
+  state: StateType; // Represents the application's state
+  setState: Dispatch<SetStateAction<StateType>>; // A function to update the state
 }
