@@ -1,6 +1,7 @@
-# Getting Started with Create React App
+# Getting Started with Music Demo App. (a.k.a. 'Ongaku')
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was also created using [Spotify API](https://developer.spotify.com/documentation/web-api)
 
 ## Available Scripts
 
