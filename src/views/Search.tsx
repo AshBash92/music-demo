@@ -4,7 +4,6 @@ import Tiles from '../components/TileComponent';
 import Searchbar from '../components/SearchbarComponent';
 import getSearch from '../requests/searchRequest';
 import Context from '../Context';
-import Box from '@mui/material/Box';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 
 const Search: React.FC = () => {
@@ -26,10 +25,11 @@ const Search: React.FC = () => {
             <h1 style={{ margin: '0px' }}>Ongaku</h1>
             <MusicNoteIcon sx={{ color: 'white', mr: 1, my: 0.5 }} />
           </div>
-          <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-end' }}>
             <Searchbar state={state} updateSearchData={updateSearchData} getSearch={getSearch} />
-          </Box>
+          </div>
         </header>
+        {/* TODO */}
         {/* <div>
           <label>Items per page: </label>
           <select>
@@ -38,6 +38,7 @@ const Search: React.FC = () => {
             <option>50</option>
           </select>
         </div> */}
+
         {/* Tiles show up after search fires */}
         {searchData && <Tiles searchData={searchData} />}
       </div>

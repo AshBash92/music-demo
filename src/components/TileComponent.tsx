@@ -31,14 +31,14 @@ const Tile: React.FC<TileProps> = ({ index, data }) => {
       return (
         <Grow in={isTileVisible} timeout={1000}>
           <Link style={{ textDecoration: 'none', color: '#FFFFFF' }} to={`/play/${title}/${artist}/${id}/${modifiedCover}`}>
-            <div className='tileLink' style={{ display: 'flex', margin: '25px' }}>
+            <div className='tileLink' style={{ display: 'flex', padding: '25px', flexDirection: 'column' }}>
               <img
-                style={{ width: '10vw', minWidth: '100px', maxWidth: '300px' }}
+                style={{ width: '30vw', minWidth: '100px', maxWidth: '300px' }}
                 src={cover}
                 alt={`Album cover for ${title} by ${artist}`}
               />
-              <div style={{ marginLeft: '15px' }}>
-                <div style={{ fontSize: '25px', fontWeight: 'bold', marginBottom: '5px' }}>{title}</div>
+              <div>
+                <div style={{ fontSize: '20px', fontWeight: 'bold', marginTop: '5px', overflow: 'hidden', width: '30vw', minWidth: '100px', maxWidth: '300px' }}>{title}</div>
                 {artist}
               </div>
             </div>
@@ -58,21 +58,18 @@ interface TilesProps {
 }
 
 // Display a grid of up to 12 tiles
-const Tiles: React.FC<TilesProps> = ({ searchData }) => (
-  <>
-      <Tile index="0" data={searchData}/>
-      <Tile index="1" data={searchData}/>
-      <Tile index="2" data={searchData}/>
-      <Tile index="3" data={searchData}/>
-      <Tile index="4" data={searchData}/>
-      <Tile index="5" data={searchData}/>
-      <Tile index="6" data={searchData}/>
-      <Tile index="7" data={searchData}/>
-      <Tile index="8" data={searchData}/>
-      <Tile index="9" data={searchData}/>
-      <Tile index="10" data={searchData}/>
-      <Tile index="11" data={searchData}/>
-  </>
-);
+const Tiles: React.FC<TilesProps> = ({ searchData }) => {
+  const tileComponents = [];
+  
+    for (let index = 0; index < 12; index++) {
+      tileComponents.push(<Tile key={index.toString()} index={index.toString()} data={searchData} />);
+    }
+
+    return (
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+        {tileComponents}
+      </div>
+    );
+  };
 
 export default Tiles;
