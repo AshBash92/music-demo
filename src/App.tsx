@@ -13,7 +13,7 @@ const App: React.FC = () => {
     clientId: process.env.REACT_APP_CLIENT_ID!, // Spotify client ID
     clientSecret: process.env.REACT_APP_CLIENT_SECRET!, // Spotify client secret
     accessToken: null, // Initially set to null and will be fetched later
-    route: 'Search', // Home page route set to 'Search'
+    route: 'Home', // Home page route set to 'Search'
   });
 
   useEffect(() => {

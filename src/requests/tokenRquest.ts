@@ -1,7 +1,7 @@
 import { ContextType } from '../types';
 
 // This function retrieves an access token from the Spotify API and updates the context with the token.
-const getToken = async (context: ContextType) => {
+const getToken = async ( context: ContextType ) => {
   try {
     // Extract the client ID and client secret from the context state
     const { clientId, clientSecret } = context.state;

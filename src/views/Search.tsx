@@ -1,83 +1,45 @@
 import React, { useContext, useState } from 'react';
 import '../App.css';
 import Tiles from '../components/TileComponent';
+import Searchbar from '../components/SearchbarComponent';
+import getSearch from '../requests/searchRequest';
 import Context from '../Context';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import SearchIcon from '@mui/icons-material/Search';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 
 const Search: React.FC = () => {
   // Access the application state and state updater function from the context
   const { state, setState } = useContext(Context);
 
-  // State for the search input and Spotify data
-  const [searchInput, setSearchInput] = useState<string>('');
-  const [spotifyData, setSpotifyData] = useState<any | null>(null);
+  // State to store the Spotify data fetched by the SearchbarComponent
+  const [searchData, setSearchData] = useState<any | null>(null);
 
-  // Event handler for input change
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(event.target.value);
-  };
-
-  // Event handler for search when the 'Enter' key is pressed
-  const handleSearch = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      fetchData(state.accessToken, searchInput);
-    }
-  };
-
-  // Function to fetch data from the Spotify API
-  const fetchData = async (accessToken: string | null, searchInput: string) => {
-    const sanitizedSearchInput = searchInput.replace(/ /g, '+');
-    const apiUrl = `https://api.spotify.com/v1/search?q=${sanitizedSearchInput}&type=album%2Ctrack%2Cartist&market=US&limit=12&offset=4&sort=popularity`;
-
-    const headers = {
-      Authorization: `Bearer ${accessToken}`,
-    };
-
-    try {
-      const response = await fetch(apiUrl, {
-        method: 'GET',
-        headers: headers,
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setSpotifyData(data);
-    } catch (error) {
-      console.error('Error:', error);
-    }
+  const updateSearchData = (data: any) => {
+    setSearchData(data);
   };
 
   return (
     <>
-      <div className="Search">
-        <header className="Search-header">
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{minHeight: '100vh'}}>
+        <header style={{ display: 'flex', margin: '25px'}}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', width: '45%' }}>
             <h1 style={{ margin: '0px' }}>Ongaku</h1>
             <MusicNoteIcon sx={{ color: 'white', mr: 1, my: 0.5 }} />
-          </Box>
-          <h6 style={{ marginTop: '0px' }}>music to your ears</h6>
+          </div>
           <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-            <SearchIcon sx={{ color: 'white', mr: 1, my: 0.5 }} />
-            <TextField
-              id="searchBar"
-              label="Search for Song"
-              variant="standard"
-              value={searchInput}
-              onKeyUp={handleSearch}
-              onChange={handleInputChange}
-              InputProps={{ style: { color: 'white' } }}
-              InputLabelProps={{ style: { color: 'white' } }}
-            />
+            <Searchbar state={state} updateSearchData={updateSearchData} getSearch={getSearch} />
           </Box>
-          {/* Tiles show up after search fires */}
-          {spotifyData && <Tiles data={spotifyData} />}
         </header>
+        {/* <div>
+          <label>Items per page: </label>
+          <select>
+            <option>10</option>
+            <option>25</option>
+            <option>50</option>
+          </select>
+        </div> */}
+        {/* Tiles show up after search fires */}
+        {searchData && <Tiles searchData={searchData} />}
       </div>
     </>
   );

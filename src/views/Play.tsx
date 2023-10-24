@@ -17,7 +17,7 @@ const Play: React.FC = () => {
       <div className="Play">
         <header className="Play-header">
           {/* Create a link back to the search page */}
-          <Link to="/search" style={{ textDecoration: 'none', color: 'white' }}>
+          <Link to="/home" style={{ textDecoration: 'none', color: 'white' }}>
             {/* Create a header with the Ongaku title and a MusicNote icon */}
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <p style={{ fontWeight: 'bold' }}>Ongaku</p>
@@ -29,12 +29,12 @@ const Play: React.FC = () => {
         {/* Embedded Player for the Spotify track */}
         <iframe
           src={`https://open.spotify.com/embed/track/${id}`}
-          width="300"
+          width="400"
           height="380"
           style={{ border: 0 }} // Remove the iframe border
           allowTransparency={true}
           allow="encrypted-media"
-        ></iframe>
+        />
       </div>
     </>
   );

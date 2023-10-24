@@ -1,32 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
 import Grow from '@mui/material/Grow';
 import { Link } from 'react-router-dom';
 
 // Props for a single tile component
 interface TileProps {
-  index: string; // Index of the tile in the list
-  data: any; // Spotify data
+  index: string;
+  data: any;
 }
 
 const Tile: React.FC<TileProps> = ({ index, data }) => {
   // State to control the visibility of the tile with an animation
   const [isTileVisible, setIsTileVisible] = useState(false);
+  const item = data.tracks.items[index];
 
   useEffect(() => {
     // When the component mounts, set the tile as visible to trigger the animation
     setIsTileVisible(true);
   }, []);
 
-  if (data.tracks && Array.isArray(data.tracks.items) && data.tracks.items[index]) {
-    // Extract relevant Spotify data for the tile
-    const title = data.tracks.items[index].name;
-    const artist = data.tracks.items[index].artists[0].name;
-    const id = data.tracks.items[index].id;
-    const cover = data.tracks.items[index].album.images[1]?.url;
+  if ( item ) {
+    const title = item.album.name;
+    const artist = item.album.artists[0].name;
+    const cover = item.album.images[1].url;
+    const id = item.id;
 
     if (cover) {
       // Modify the cover image URL for display
@@ -34,31 +30,18 @@ const Tile: React.FC<TileProps> = ({ index, data }) => {
 
       return (
         <Grow in={isTileVisible} timeout={1000}>
-          <Link style={{ textDecoration: 'none' }} to={`/play/${title}/${artist}/${id}/${modifiedCover}`}>
-            <Card className="tile" sx={{ maxWidth: 300 }}>
-              <CardMedia
-                sx={{ height: 250 }}
-                image={cover}
+          <Link style={{ textDecoration: 'none', color: '#FFFFFF' }} to={`/play/${title}/${artist}/${id}/${modifiedCover}`}>
+            <div className='tileLink' style={{ display: 'flex', margin: '25px' }}>
+              <img
+                style={{ width: '10vw', minWidth: '100px', maxWidth: '300px' }}
+                src={cover}
+                alt={`Album cover for ${title} by ${artist}`}
               />
-              <CardContent>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="div"
-                  style={{
-                    maxWidth: '30vw',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis'
-                  }}
-                >
-                  {title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {artist}
-                </Typography>
-              </CardContent>
-            </Card>
+              <div style={{ marginLeft: '15px' }}>
+                <div style={{ fontSize: '25px', fontWeight: 'bold', marginBottom: '5px' }}>{title}</div>
+                {artist}
+              </div>
+            </div>
           </Link>
         </Grow>
       );
@@ -71,33 +54,24 @@ const Tile: React.FC<TileProps> = ({ index, data }) => {
 
 // Props for the Tiles component
 interface TilesProps {
-  data: any; // Spotify data
+  searchData: any; // Spotify data
 }
 
 // Display a grid of up to 12 tiles
-const Tiles: React.FC<TilesProps> = ({ data }) => (
+const Tiles: React.FC<TilesProps> = ({ searchData }) => (
   <>
-    <div className="tile-row">
-      {/* Display four tiles in the first row */}
-      <Tile index="0" data={data} />
-      <Tile index="1" data={data} />
-      <Tile index="2" data={data} />
-      <Tile index="3" data={data} />
-    </div>
-    <div className="tile-row">
-      {/* Display four tiles in the second row */}
-      <Tile index="4" data={data} />
-      <Tile index="5" data={data} />
-      <Tile index="6" data={data} />
-      <Tile index="7" data={data} />
-    </div>
-    <div className="tile-row">
-      {/* Display four tiles in the third row */}
-      <Tile index="8" data={data} />
-      <Tile index="9" data={data} />
-      <Tile index="10" data={data} />
-      <Tile index="11" data={data} />
-    </div>
+      <Tile index="0" data={searchData}/>
+      <Tile index="1" data={searchData}/>
+      <Tile index="2" data={searchData}/>
+      <Tile index="3" data={searchData}/>
+      <Tile index="4" data={searchData}/>
+      <Tile index="5" data={searchData}/>
+      <Tile index="6" data={searchData}/>
+      <Tile index="7" data={searchData}/>
+      <Tile index="8" data={searchData}/>
+      <Tile index="9" data={searchData}/>
+      <Tile index="10" data={searchData}/>
+      <Tile index="11" data={searchData}/>
   </>
 );
 
